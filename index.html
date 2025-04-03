@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Under Development</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:wght@300;400;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #5f27cd, #6bdfff);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #341f97, #c247ff);
+        }
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 700;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #6bdfff, #5f27cd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #5f27cd, #6bdfff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: #b3b3b3;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(45deg, #5f27cd, #341f97);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(95, 39, 205, 0.5);
+            margin: 0 10px 20px 10px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #6bdfff, #ac47ff);
+            transition: all 0.4s ease-in-out;
+            z-index: -1;
+        }
+        .btn:hover::before {
+            left: 0;
+        }
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.7);
+        }
+        .btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .countdown {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .countdown-item {
+            margin: 0 1rem;
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            min-width: 100px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #2980b9, #6dd5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .countdown-label {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #b3b3b3;
+            margin-top: 5px;
+        }
+        .loader {
+            width: 150px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 2rem auto;
+        }
+        .loader::after {
+            content: '';
+            display: block;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(90deg, #5f27cd, #6bdfff);
+            animation: loading 2s infinite ease-in-out;
+            border-radius: 10px;
+        }
+        @keyframes loading {
+            0% {
+                transform: translateX(-100%);
+            }
+            50% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        .dev-progress {
+            margin: 3rem 0;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .progress-container {
+            margin: 2rem 0;
+            position: relative;
+        }
+        .progress-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            position: relative;
+            margin: 0 auto;
+            max-width: 700px;
+        }
+        .progress-milestones {
+            display: flex;
+            justify-content: space-between;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .milestone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 15px;
+            position: relative;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+        .milestone.completed {
+            opacity: 1;
+        }
+        .milestone-dot {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #6bdfff, #5f27cd);
+            border-radius: 50%;
+            margin-bottom: 10px;
+            position: relative;
+            box-shadow: 0 0 15px rgba(95, 39, 205, 0.5);
+        }
+        .milestone-dot::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: #000000;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .milestone.completed .milestone-dot::before {
+            opacity: 1;
+        }
+        .milestone-label {
+            font-size: 0.85rem;
+            color: #b3b3b3;
+            margin-top: 5px;
+            text-align: center;
+            max-width: 100px;
+        }
+        .progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 40%;
+            background: linear-gradient(90deg, #5f27cd, #6bdfff);
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+        .console-container {
+            max-width: 700px;
+            margin: 3rem auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: monospace;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .console-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .console-dots {
+            display: flex;
+            margin-right: auto;
+        }
+        .console-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        .console-dot.red {
+            background: #ff5f57;
+        }
+        .console-dot.yellow {
+            background: #febc2e;
+        }
+        .console-dot.green {
+            background: #28c840;
+        }
+        .console-title {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+        }
+        .console-content {
+            color: #01ff70;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow: hidden;
+        }
+        .console-line {
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .console-line:nth-child(1) {
+            animation: typing 2s steps(60, end);
+        }
+        .console-line:nth-child(2) {
+            animation: typing 2s steps(60, end);
+            animation-delay: 1s;
+        }
+        .console-line:nth-child(3) {
+            animation: typing 2s steps(60, end);
+            animation-delay: 2s;
+        }
+        .console-line:nth-child(4) {
+            animation: typing 2s steps(60, end);
+            animation-delay: 3s;
+        }
+        .console-line:nth-child(5) {
+            animation: typing 2s steps(60, end);
+            animation-delay: 4s;
+        }
+        .console-prompt {
+            color: #6bdfff;
+            margin-right: 0.5rem;
+        }
+        .console-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background: #01ff70;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        .social-links {
+            margin-bottom: 1.5rem;
+        }
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: #b3b3b3;
+            margin: 0 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-link:hover {
+            background: linear-gradient(45deg, #5f27cd, #6bb8ff);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(95, 39, 205, 0.4);
+        }
+        .copyright {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(95, 39, 205, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+        }
+        .glow-1 {
+            top: 10%;
+            left: 10%;
+            animation: float 8s infinite ease-in-out;
+        }
+        .glow-2 {
+            bottom: 20%;
+            right: 10%;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+            animation: float 12s infinite ease-in-out reverse;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(30px, -30px);
+            }
+        }
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .countdown {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .countdown-item {
+                margin-bottom: 1rem;
+            }
+            .progress-milestones {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btn {
+                margin: 10px 0;
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    
+    <div class="container">
+        <h1>Website Under Development</h1>
+        <p>We're crafting an extraordinary digital experience. Stay tuned for something truly innovative!</p>
+        
+        <div class="loader"></div>
+        
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">14</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">23</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">45</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">18</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+        <p style="font-size: 0.9rem; margin-top: -1rem;">Note: This is not an estimated time; it may take more days.</p>
+        
+        <div class="button-container">
+            <a href="https://discord.gg/programmers" class="btn" target="_blank" rel="noopener noreferrer" aria-label="Join our Discord Support Server">
+                <i class="fab fa-discord"></i>
+                <span>Join Community</span>
+            </a>
+            <a href="#notify" class="btn" id="notifyBtn" aria-label="Get notified when we launch">
+                <i class="fas fa-bell"></i>
+                <span>Notify Me</span>
+            </a>
+        </div>
+        
+        <div class="dev-progress">
+            <h2>Our Progress</h2>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="progress-milestones">
+                    <div class="milestone completed">
+                        <div class="milestone-dot"></div>
+                        <div class="milestone-label">Concept</div>
+                    </div>
+                    <div class="milestone completed">
+                        <div class="milestone-dot"></div>
+                        <div class="milestone-label">Design</div>
+                    </div>
+                    <div class="milestone completed">
+                        <div class="milestone-dot"></div>
+                        <div class="milestone-label">Frontend</div>
+                    </div>
+                    <div class="milestone">
+                        <div class="milestone-dot"></div>
+                        <div class="milestone-label">Backend</div>
+                    </div>
+                    <div class="milestone">
+                        <div class="milestone-dot"></div>
+                        <div class="milestone-label">Testing</div>
+                    </div>
+                    <div class="milestone">
+                        <div class="milestone-dot"></div>
+                        <div class="milestone-label">Launch</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="console-container">
+            <div class="console-header">
+                <div class="console-dots">
+                    <div class="console-dot red"></div>
+                    <div class="console-dot yellow"></div>
+                    <div class="console-dot green"></div>
+                </div>
+                <div class="console-title">Leveragers</div>
+            </div>
+            <div class="console-content">
+                <div class="console-line"><span class="console-prompt">$</span> npm install --verbose</div>
+                <div class="console-line"><span class="console-prompt">$</span> Compiling assets...</div>
+                <div class="console-line"><span class="console-prompt">$</span> Optimizing performance...</div>
+                <div class="console-line"><span class="console-prompt">$</span> Deploying APIs...</div>
+                <div class="console-line"><span class="console-prompt">$</span> Running tests<span class="console-cursor"></span></div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="social-links">
+                <a href="https://instagram.com/leveragers_hub" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/AxZeRxD" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Check our GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://discord.gg/programmers" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Join our Discord">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="mailto:mohit.4sure@gmail.com" class="social-link" aria-label="Email us">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <div class="copyright">© 2025 InnovateX. All rights reserved.</div>
+        </footer>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.2,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#5f27cd",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 0.4
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        
+        function updateCountdown() {
+            const seconds = parseInt(document.getElementById('seconds').textContent);
+            const minutes = parseInt(document.getElementById('minutes').textContent);
+            const hours = parseInt(document.getElementById('hours').textContent);
+            const days = parseInt(document.getElementById('days').textContent);
+            
+            let newSeconds = seconds - 1;
+            let newMinutes = minutes;
+            let newHours = hours;
+            let newDays = days;
+            
+            if (newSeconds < 0) {
+                newSeconds = 59;
+                newMinutes -= 1;
+                if (newMinutes < 0) {
+                    newMinutes = 59;
+                    newHours -= 1;
+                    if (newHours < 0) {
+                        newHours = 23;
+                        newDays -= 1;
+                        if (newDays < 0) {
+                            newDays = 0;
+                            newHours = 0;
+                            newMinutes = 0;
+                            newSeconds = 0;
+                        }
+                    }
+                }
+            }
+            
+            document.getElementById('seconds').textContent = newSeconds.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = newMinutes.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = newHours.toString().padStart(2, '0');
+            document.getElementById('days').textContent = newDays.toString();
+            
+            setTimeout(updateCountdown, 1000);
+        }
+        
+        
+        updateCountdown();
+        
+        
+        document.getElementById('notifyBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+            modal.style.zIndex = '1000';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            
+            
+            const formContainer = document.createElement('div');
+            formContainer.style.backgroundColor = '#0a0a0a';
+            formContainer.style.padding = '2rem';
+            formContainer.style.borderRadius = '10px';
+            formContainer.style.maxWidth = '500px';
+            formContainer.style.width = '90%';
+            formContainer.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+            formContainer.style.border = '1px solid rgba(255,255,255,0.1)';
+            
+            
+            formContainer.innerHTML = `
+                <h3 style="margin-bottom: 1rem; color: white; font-size: 1.5rem;">Get Notified</h3>
+                <p style="color: #b3b3b3; margin-bottom: 1.5rem;">Enter your email to receive updates when we launch!</p>
+                <form id="notifyForm" style="display: flex; flex-direction: column;">
+                    <input type="email" placeholder="Your email" required 
+                           style="padding: 0.8rem; margin-bottom: 1rem; border-radius: 5px; border: 1px solid rgba(255,255,255,0.1); 
+                                  background: rgba(0,0,0,0.5); color: white;">
+                    <button type="submit" 
+                            style="padding: 0.8rem; background: linear-gradient(45deg, #5f27cd, #6bdfff); border: none; 
+                                   border-radius: 5px; color: white; font-weight: bold; cursor: pointer;">
+                        Subscribe
+                    </button>
+                </form>
+                <button id="closeModal" 
+                        style="position: absolute; top: 10px; right: 10px; background: none; border: none; 
+                               color: white; font-size: 1.5rem; cursor: pointer;">
+                    &times;
+                </button>
+            `;
+            
+            modal.appendChild(formContainer);
+            document.body.appendChild(modal);
+            
+            
+            document.getElementById('closeModal').addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+            
+            
+            document.getElementById('notifyForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                
+                
+                formContainer.innerHTML = `
+                    <h3 style="margin-bottom: 1rem; color: white; font-size: 1.5rem;">Thank You!</h3>
+                    <p style="color: #b3b3b3; margin-bottom: 1.5rem;">
+                        We'll notify ${email} when we launch. Stay tuned!
+                    </p>
+                    <button id="closeSuccessModal" 
+                            style="padding: 0.8rem; background: linear-gradient(45deg, #5f27cd, #6bdfff); 
+                                   border: none; border-radius: 5px; color: white; font-weight: bold; 
+                                   cursor: pointer; width: 100%;">
+                        Close
+                    </button>
+                `;
+                
+                document.getElementById('closeSuccessModal').addEventListener('click', function() {
+                    document.body.removeChild(modal);
+                });
+            });
+        });
+        
+        
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
